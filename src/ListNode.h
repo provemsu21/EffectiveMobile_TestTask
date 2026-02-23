@@ -1,3 +1,6 @@
+#ifndef LISTNODE_H_
+#define LISTNODE_H_
+
 #include <string>
 
 struct ListNode {
@@ -7,3 +10,5 @@ struct ListNode {
 
   std::string data;
 };
+
+#endif // LISTNODE_H_

@@ -1,3 +1,6 @@
+#ifndef PARSER_PARSER_H_
+#define PARSER_PARSER_H_
+
 #include <fstream>
 #include <stdexcept>
 
@@ -21,3 +24,5 @@ public:
   void parseFile();
   const Data &getData() const { return data_; }
 };
+
+#endif // PARSER_PARSER_H_

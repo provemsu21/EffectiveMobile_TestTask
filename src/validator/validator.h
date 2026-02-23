@@ -1,3 +1,6 @@
+#ifndef VALIDATOR_VALIDATOR_H_
+#define VALIDATOR_VALIDATOR_H_
+
 #include <string>
 #include <vector>
 
@@ -13,3 +16,5 @@ inline bool checkDataLength(const std::string &data) {
   return data.size() >= MAX_DATA_LENGTH_ ? false : true;
 }
 }; // namespace Validator
+
+#endif // VALIDATOR_VALIDATOR_H_
