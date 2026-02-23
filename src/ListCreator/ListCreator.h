@@ -18,7 +18,7 @@ private:
   void initIndexTokens();
 
 public:
-  ListCreator(const Data &data);
+  explicit ListCreator(const Data &data);
   ListNode *getHead() const { return head_; }
 };
 
