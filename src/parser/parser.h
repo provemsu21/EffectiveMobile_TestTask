@@ -18,6 +18,6 @@ private:
 
 public:
   Parser(const std::string &filename);
-  bool parseFile();
+  void parseFile();
   const Data &getData() const { return data_; }
 };

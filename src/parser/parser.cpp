@@ -9,7 +9,7 @@ void Parser::openFile() { is_.open(filename_, std::ios::in); }
 
 bool Parser::isOpen() { return is_.is_open(); }
 
-bool Parser::parseFile() {
+void Parser::parseFile() {
   openFile();
   if (!isOpen())
     throw ParserException("Cannot open file: " + filename_);
@@ -50,6 +50,4 @@ bool Parser::parseFile() {
   is_.close();
   if (data_.empty())
     throw ParserException("File is empty or has no valid data");
-
-  return true;
 }
