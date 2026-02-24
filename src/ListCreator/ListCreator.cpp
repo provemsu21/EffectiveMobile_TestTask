@@ -9,6 +9,10 @@ ListCreator::ListCreator(const Data &data) : head_(nullptr), data_(data) {
 }
 
 void ListCreator::initDataTokens() {
+  if (data_.empty()) {
+    head_ = nullptr;
+    return;
+  }
   head_ = new ListNode();
   ListNode *head = head_;
   ListNode *prev = nullptr;
