@@ -36,14 +36,17 @@
 - CMake ≥ 3.16
 - Компилятор с поддержкой C++17 (GCC, Clang)
 
-### Сборка
+### Сборка CMake
 
 ```bash
 mkdir build
 cmake -S . -B build
 cmake --build build -j$(nproc)
 ```
-
+### Сборка без CMake
+```bash
+g++ -std=c++17 main.cpp ListCreator/ListCreator.cpp parser/parser.cpp -o EM_Test
+```
 ### Запуск
 
 Положите файл `inlet.in` рядом с исполняемым файлом (или в рабочую директорию) и запустите:
