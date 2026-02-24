@@ -4,7 +4,7 @@
 #include "../types.h"
 #include <vector>
 
-class ListNode;
+struct ListNode;
 
 class ListCreator {
 private:
