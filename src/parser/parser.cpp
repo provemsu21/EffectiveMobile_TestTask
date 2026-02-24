@@ -7,7 +7,7 @@ Parser::Parser(const std::string &filename) : filename_(filename) {}
 
 void Parser::openFile() { is_.open(filename_, std::ios::in); }
 
-bool Parser::isOpen() { return is_.is_open(); }
+bool Parser::isOpen() const { return is_.is_open(); }
 
 void Parser::parseFile() {
   openFile();
@@ -29,22 +29,34 @@ void Parser::parseFile() {
     std::string data_token = line.substr(0, sep);
     std::string index_token = line.substr(sep + 1);
 
-    try {
-      int index = std::stoi(index_token);
-      if (!Validator::checkDataLength(data_token))
-        throw ParserException("Data too long at line " +
-                              std::to_string(line_num));
-      if (!Validator::checkNodesSize(data_.size()))
-        throw ParserException("Too many nodes, max is " +
-                              std::to_string(Validator::MAX_NODES_));
+    if (!Validator::checkDataLength(data_token))
+      throw ParserException("Data too long at line " +
+                            std::to_string(line_num));
+    if (!Validator::checkNodesSize(static_cast<int>(data_.size() + 1)))
+      throw ParserException("Too many nodes, max is " +
+                            std::to_string(Validator::MAX_NODES_));
 
-      data_.push_back({std::move(data_token), index});
+    int index = 0;
+    try {
+      std::size_t pos = 0;
+      index = std::stoi(index_token, &pos);
+      if (pos != index_token.size())
+        throw ParserException("Characters in rand index at line " +
+                              std::to_string(line_num));
     } catch (const ParserException &) {
       throw;
     } catch (...) {
       throw ParserException("Invalid rand index at line " +
                             std::to_string(line_num));
     }
+
+    if (!Validator::isValidRandIndex(index)) {
+      throw ParserException("Rand index out of range at line " +
+                            std::to_string(line_num) +
+                            ": only -1 or non-negative values are allowed");
+    }
+
+    data_.push_back({std::move(data_token), index});
   }
 
   is_.close();

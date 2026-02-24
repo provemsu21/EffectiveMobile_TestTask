@@ -1,13 +1,15 @@
 #include "ListCreator.h"
 #include "../ListNode.h"
+#include "../validator/validator.h"
+#include <stdexcept>
 
-ListCreator::ListCreator(const Data &data)
-    : head_(new ListNode()), data_(data) {
+ListCreator::ListCreator(const Data &data) : head_(nullptr), data_(data) {
   initDataTokens();
   initIndexTokens();
 }
 
 void ListCreator::initDataTokens() {
+  head_ = new ListNode();
   ListNode *head = head_;
   ListNode *prev = nullptr;
   for (size_t i = 0; i < data_.size(); ++i) {
@@ -24,20 +26,34 @@ void ListCreator::initDataTokens() {
 }
 
 void ListCreator::initIndexTokens() {
+  size_t n = data_.size();
+
   ListNode *head = head_;
 
   std::vector<ListNode *> nodes;
-  nodes.reserve(data_.size());
+  nodes.reserve(n);
 
   while (head) {
     nodes.push_back(head);
     head = head->next;
   }
 
-  for (size_t i = 0; i < data_.size(); ++i) {
+  for (size_t i = 0; i < n; ++i) {
     int index = data_[i].second;
-    nodes[i]->rand =
-        (index <= -1 || index >= static_cast<int>(data_.size()) ? nullptr
-                                                                : nodes[index]);
+    if (!Validator::checkRandIndex(index, n))
+      throw std::out_of_range("Rand index " + std::to_string(index) +
+                              " out of range for node " + std::to_string(i) +
+                              " (list size = " + std::to_string(n) + ")");
+
+    nodes[i]->rand = (index == -1) ? nullptr : nodes[index];
+  }
+}
+
+ListCreator::~ListCreator() {
+  ListNode *cur = head_;
+  while (cur) {
+    ListNode *next = cur->next;
+    delete cur;
+    cur = next;
   }
 }

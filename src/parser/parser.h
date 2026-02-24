@@ -1,10 +1,10 @@
 #ifndef PARSER_PARSER_H_
 #define PARSER_PARSER_H_
 
+#include "../types.h"
 #include <fstream>
 #include <stdexcept>
-
-using Data = std::vector<std::pair<std::string, int>>;
+#include <string>
 
 class ParserException : public std::runtime_error {
 public:
@@ -15,9 +15,10 @@ class Parser { // TODO IParser
 private:
   const std::string filename_;
   std::ifstream is_;
-  Data data_;
+  Data data_; // TODO ptr
+
   void openFile();
-  bool isOpen();
+  bool isOpen() const;
 
 public:
   explicit Parser(const std::string &filename);

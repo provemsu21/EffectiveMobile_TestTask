@@ -39,6 +39,9 @@ int main() {
   } catch (const ParserException &e) {
     std::cerr << "Parse error: " << e.what() << "\n";
     return 1;
+  } catch (const std::exception &e) {
+    std::cerr << "Error: " << e.what() << '\n';
+    return 1;
   }
 
   std::cout << '\n';

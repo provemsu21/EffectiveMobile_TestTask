@@ -1,24 +1,25 @@
 #ifndef LISTMANAGER_LISTCREATOR_H_
 #define LISTMANAGER_LISTCREATOR_H_
 
-#include <string>
-#include <utility>
+#include "../types.h"
 #include <vector>
-
-using Data = std::vector<std::pair<std::string, int>>;
 
 class ListNode;
 
 class ListCreator {
 private:
   ListNode *head_;
-  const Data &data_;
+  Data data_;
 
   void initDataTokens();
   void initIndexTokens();
 
 public:
   explicit ListCreator(const Data &data);
+  ListCreator(const ListCreator &) = delete;
+  ListCreator &operator=(const ListCreator &) = delete;
+  ~ListCreator();
+
   ListNode *getHead() const { return head_; }
 };
 
