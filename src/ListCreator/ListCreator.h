@@ -9,9 +9,11 @@ struct ListNode;
 class ListCreator {
 private:
   ListNode *head_;
-
+  std::vector<ListNode *> nodes_;
   void initDataTokens(const Data &data);
   void initIndexTokens(const Data &data);
+
+  void freeList() noexcept;
 
 public:
   explicit ListCreator(const Data &data);

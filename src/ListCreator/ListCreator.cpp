@@ -5,25 +5,36 @@
 
 ListCreator::ListCreator(const Data &data) : head_(nullptr) {
   initDataTokens(data);
-  initIndexTokens(data);
+  try {
+    initIndexTokens(data);
+  } catch (...) {
+    freeList();
+    throw;
+  }
 }
 
 void ListCreator::initDataTokens(const Data &data) {
-  if (data.empty()) {
+  size_t n = data.size();
+  if (n == 0) {
     head_ = nullptr;
     return;
   }
+
+  nodes_.reserve(n);
+
   head_ = new ListNode();
   ListNode *head = head_;
   ListNode *prev = nullptr;
-  for (size_t i = 0; i < data.size(); ++i) {
+
+  for (size_t i = 0; i < n; ++i) {
     head->prev = prev;
-    if (i != data.size() - 1) {
+    if (i != n - 1) {
       head->next = new ListNode();
     } else {
       head->next = nullptr;
     }
     head->data = data[i].first;
+    nodes_.push_back(head);
     prev = head;
     head = head->next;
   }
@@ -32,16 +43,6 @@ void ListCreator::initDataTokens(const Data &data) {
 void ListCreator::initIndexTokens(const Data &data) {
   size_t n = data.size();
 
-  ListNode *head = head_;
-
-  std::vector<ListNode *> nodes;
-  nodes.reserve(n);
-
-  while (head) {
-    nodes.push_back(head);
-    head = head->next;
-  }
-
   for (size_t i = 0; i < n; ++i) {
     int index = data[i].second;
     if (!Validator::checkRandIndex(index, n))
@@ -49,15 +50,18 @@ void ListCreator::initIndexTokens(const Data &data) {
                               " out of range for node " + std::to_string(i) +
                               " (list size = " + std::to_string(n) + ")");
 
-    nodes[i]->rand = (index == -1) ? nullptr : nodes[index];
+    nodes_[i]->rand = (index == -1) ? nullptr : nodes_[index];
   }
 }
 
-ListCreator::~ListCreator() {
+void ListCreator::freeList() noexcept {
   ListNode *cur = head_;
   while (cur) {
     ListNode *next = cur->next;
     delete cur;
     cur = next;
   }
+  head_ = nullptr;
 }
+
+ListCreator::~ListCreator() { freeList(); }
