@@ -1,6 +1,7 @@
 #include "ListCreator/ListCreator.h"
 #include "ListNode.h"
 #include "parser/parser.h"
+#include "serializer/serializer.h"
 #include <iostream>
 
 int main() {
@@ -35,6 +36,10 @@ int main() {
       cur = cur->next;
       ++i;
     }
+
+    std::cout << "\n";
+    Serializer::serialize(head, "outlet.out");
+    std::cout << "Serialized " << data.size() << " nodes to outlet.out\n";
 
   } catch (const ParserException &e) {
     std::cerr << "Parse error: " << e.what() << "\n";
