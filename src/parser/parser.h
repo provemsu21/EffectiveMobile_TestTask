@@ -11,11 +11,11 @@ public:
   explicit ParserException(const std::string &msg) : std::runtime_error(msg) {}
 };
 
-class Parser { // TODO IParser
+class Parser {
 private:
   const std::string filename_;
   std::ifstream is_;
-  Data data_; // TODO ptr
+  Data data_;
 
   void openFile();
   bool isOpen() const;
