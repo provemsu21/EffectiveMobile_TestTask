@@ -9,10 +9,9 @@ struct ListNode;
 class ListCreator {
 private:
   ListNode *head_;
-  Data data_;
 
-  void initDataTokens();
-  void initIndexTokens();
+  void initDataTokens(const Data &data);
+  void initIndexTokens(const Data &data);
 
 public:
   explicit ListCreator(const Data &data);

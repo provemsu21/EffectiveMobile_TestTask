@@ -3,34 +3,34 @@
 #include "../validator/validator.h"
 #include <stdexcept>
 
-ListCreator::ListCreator(const Data &data) : head_(nullptr), data_(data) {
-  initDataTokens();
-  initIndexTokens();
+ListCreator::ListCreator(const Data &data) : head_(nullptr) {
+  initDataTokens(data);
+  initIndexTokens(data);
 }
 
-void ListCreator::initDataTokens() {
-  if (data_.empty()) {
+void ListCreator::initDataTokens(const Data &data) {
+  if (data.empty()) {
     head_ = nullptr;
     return;
   }
   head_ = new ListNode();
   ListNode *head = head_;
   ListNode *prev = nullptr;
-  for (size_t i = 0; i < data_.size(); ++i) {
+  for (size_t i = 0; i < data.size(); ++i) {
     head->prev = prev;
-    if (i != data_.size() - 1) {
+    if (i != data.size() - 1) {
       head->next = new ListNode();
     } else {
       head->next = nullptr;
     }
-    head->data = data_[i].first;
+    head->data = data[i].first;
     prev = head;
     head = head->next;
   }
 }
 
-void ListCreator::initIndexTokens() {
-  size_t n = data_.size();
+void ListCreator::initIndexTokens(const Data &data) {
+  size_t n = data.size();
 
   ListNode *head = head_;
 
@@ -43,7 +43,7 @@ void ListCreator::initIndexTokens() {
   }
 
   for (size_t i = 0; i < n; ++i) {
-    int index = data_[i].second;
+    int index = data[i].second;
     if (!Validator::checkRandIndex(index, n))
       throw std::out_of_range("Rand index " + std::to_string(index) +
                               " out of range for node " + std::to_string(i) +
